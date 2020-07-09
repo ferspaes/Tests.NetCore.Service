@@ -10,10 +10,14 @@ namespace Testes.NetCore.Controller
     {
         private readonly Timer _timer;
         private readonly ILoggerResultRepository _logResult;
+        private readonly IVksProcess _vksProcess;
 
-        public TestsProcess(ILoggerResultRepository logResult)
+        public TestsProcess(
+            ILoggerResultRepository logResult,
+            IVksProcess vksProcess)
         {
             _logResult = logResult;
+            _vksProcess = vksProcess;
             _timer = new Timer(10000) { AutoReset = true };
             _timer.Elapsed += TimerElapsed;
         }
@@ -25,6 +29,7 @@ namespace Testes.NetCore.Controller
 
         private void BeginProcess()
         {
+            _vksProcess.LogProcess();
             Console.WriteLine("Hello .NetCore Services");
         }
 
