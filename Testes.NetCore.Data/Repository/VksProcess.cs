@@ -18,6 +18,11 @@ namespace Testes.NetCore.Data.Repository
 
         public bool LogProcess()
         {
+#if DEBUG
+            Console.WriteLine();
+            Console.WriteLine("-------");
+            var dataInicio = DateTime.Now;
+#endif
             var baseDirectory = Path.Combine(Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory), "Response", "Vks");
             var readDirectory = Path.Combine(baseDirectory, "Read_Directory");
             var logResultsDirectory = Path.Combine(baseDirectory, "Log_Results");
@@ -29,24 +34,58 @@ namespace Testes.NetCore.Data.Repository
             Directory.CreateDirectory(processedDirectory);
             Directory.CreateDirectory(logResultsDirectory);
 
-            var files = Directory.GetFiles(readDirectory);
-
+            var files = Directory.GetFiles(readDirectory).ToList();
+#if DEBUG
+            Console.WriteLine();
+            int fileIndex = 0;
+            int dataCount = 0;
+#endif
             foreach (var file in files.Where(f => f.Contains("_log_", StringComparison.InvariantCultureIgnoreCase)))
             {
+#if DEBUG
+                fileIndex++;
+#endif
                 var data = _log.Get<VksWgn>(file);
-
+#if DEBUG
+                dataCount += data.Count;
+                Console.WriteLine($"{data.Count} registros encontrados no {fileIndex}º arquivo.");
+#endif
                 WriteResults(resultsFileFullPath, data);
 
                 File.Move(file, Path.Combine(processedDirectory, Path.GetFileName(file)), true);
             }
+#if DEBUG
+            var executionTime = DateTime.Now - dataInicio;
 
+            Console.WriteLine();
+            Console.WriteLine($"{files.Count} arquivos encontrados contendo {dataCount}.");
+            Console.WriteLine();
+            Console.WriteLine($"{dataInicio} - Horário de início do processo LogProcess.");
+            Console.WriteLine($"{DateTime.Now} - Horário de fim do processo LogProcess.");
+            Console.WriteLine();
+            Console.WriteLine($"Tempo total de processamento: {Math.Round(executionTime.TotalSeconds, 0)} segundos.");
+            Console.WriteLine();
+            Console.WriteLine("------");
+            Console.WriteLine();
+#endif
             return true;
         }
 
         private static void WriteResults(string resultsFileFullPath, List<VksWgn> data)
         {
+#if DEBUG
+            int index = 0;
+            int dataCount = data.Count(d => d.ExceptionThrown || !string.IsNullOrWhiteSpace(d.ExceptionMessage));
+      
+            if (dataCount > 0)
+                Console.WriteLine();
+#endif
             foreach (var item in data.Where(d => d.ExceptionThrown || !string.IsNullOrWhiteSpace(d.ExceptionMessage)))
             {
+#if DEBUG
+                index++;
+                Console.WriteLine($"Lendo registro {index} de {dataCount} com problemas.");
+#endif
                 if (!File.Exists(resultsFileFullPath))
                 {
                     File.WriteAllLines(
