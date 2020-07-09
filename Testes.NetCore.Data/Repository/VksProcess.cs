@@ -58,7 +58,7 @@ namespace Testes.NetCore.Data.Repository
             var executionTime = DateTime.Now - dataInicio;
 
             Console.WriteLine();
-            Console.WriteLine($"{files.Count} arquivos encontrados contendo {dataCount}.");
+            Console.WriteLine($"{files.Count} arquivos encontrados, contendo {dataCount} registros.");
             Console.WriteLine();
             Console.WriteLine($"{dataInicio} - Horário de início do processo LogProcess.");
             Console.WriteLine($"{DateTime.Now} - Horário de fim do processo LogProcess.");
