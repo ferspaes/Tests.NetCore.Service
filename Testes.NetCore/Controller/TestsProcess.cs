@@ -30,7 +30,6 @@ namespace Testes.NetCore.Controller
         private void BeginProcess()
         {
             _vksProcess.LogProcess();
-            Console.WriteLine("Hello .NetCore Services");
         }
 
         public void Start()
