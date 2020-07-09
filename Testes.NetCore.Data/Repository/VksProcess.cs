@@ -48,7 +48,7 @@ namespace Testes.NetCore.Data.Repository
                 var data = _log.Get<VksWgn>(file);
 #if DEBUG
                 dataCount += data.Count;
-                Console.WriteLine($"{data.Count} registros encontrados no {fileIndex}º arquivo.");
+                Console.WriteLine($"{DateTime.Now} - {data.Count} registros encontrados no {fileIndex}º arquivo.");
 #endif
                 WriteResults(resultsFileFullPath, data);
 
@@ -58,12 +58,12 @@ namespace Testes.NetCore.Data.Repository
             var executionTime = DateTime.Now - dataInicio;
 
             Console.WriteLine();
-            Console.WriteLine($"{files.Count} arquivos encontrados, contendo {dataCount} registros.");
+            Console.WriteLine($"{DateTime.Now} - {files.Count} arquivos encontrados, contendo {dataCount} registros.");
             Console.WriteLine();
-            Console.WriteLine($"{dataInicio} - Horário de início do processo LogProcess.");
-            Console.WriteLine($"{DateTime.Now} - Horário de fim do processo LogProcess.");
+            Console.WriteLine($"{DateTime.Now} - Horário de início do processo LogProcess às {dataInicio}.");
+            Console.WriteLine($"{DateTime.Now} - Horário de fim    do processo LogProcess às {DateTime.Now}.");
             Console.WriteLine();
-            Console.WriteLine($"Tempo total de processamento: {Math.Round(executionTime.TotalSeconds, 0)} segundos.");
+            Console.WriteLine($"{DateTime.Now} - Tempo total de processamento: {Math.Round(executionTime.TotalSeconds, 0)} segundos.");
             Console.WriteLine();
             Console.WriteLine("------");
             Console.WriteLine();
@@ -76,7 +76,7 @@ namespace Testes.NetCore.Data.Repository
 #if DEBUG
             int index = 0;
             int dataCount = data.Count(d => d.ExceptionThrown || !string.IsNullOrWhiteSpace(d.ExceptionMessage));
-      
+
             if (dataCount > 0)
                 Console.WriteLine();
 #endif
