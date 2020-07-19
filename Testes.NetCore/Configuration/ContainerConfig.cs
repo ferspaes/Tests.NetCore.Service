@@ -13,7 +13,8 @@ namespace Testes.NetCore.Configuration
 
             builder.RegisterType<LoggerResultRepository>().As<ILoggerResultRepository>();
             builder.RegisterType<TestsProcess>().As<ITestsProcess>();
-            builder.RegisterType<VksProcess>().As<IVksProcess>();
+            builder.RegisterType<TProcess>().As<ITProcess>();
+            builder.RegisterType<TestProject>().As<ITestProject>();
 
             return builder.Build();
         }

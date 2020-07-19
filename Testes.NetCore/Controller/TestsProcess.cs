@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Timers;
+﻿using System.Timers;
 using Testes.NetCore.Domain.Interface;
 
 namespace Testes.NetCore.Controller
@@ -10,14 +7,17 @@ namespace Testes.NetCore.Controller
     {
         private readonly Timer _timer;
         private readonly ILoggerResultRepository _logResult;
-        private readonly IVksProcess _vksProcess;
+        private readonly ITProcess _tProcess;
+        private readonly ITestProject _testProject;
 
         public TestsProcess(
             ILoggerResultRepository logResult,
-            IVksProcess vksProcess)
+            ITProcess tProcess,
+            ITestProject testProject)
         {
+            _testProject = testProject;
             _logResult = logResult;
-            _vksProcess = vksProcess;
+            _tProcess = tProcess;
             _timer = new Timer(10000) { AutoReset = true };
             _timer.Elapsed += TimerElapsed;
         }
@@ -29,7 +29,9 @@ namespace Testes.NetCore.Controller
 
         private void BeginProcess()
         {
-            _vksProcess.LogProcess();
+            _tProcess.LogProcess();
+            _testProject.SendEmail();
+            _testProject.TratarTelefones();
         }
 
         public void Start()

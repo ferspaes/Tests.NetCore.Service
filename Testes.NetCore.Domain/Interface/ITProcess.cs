@@ -1,6 +1,6 @@
 ﻿namespace Testes.NetCore.Domain.Interface
 {
-    public interface IVksProcess
+    public interface ITProcess
     {
         bool LogProcess();
     }

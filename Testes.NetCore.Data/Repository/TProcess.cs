@@ -7,11 +7,11 @@ using Testes.NetCore.Domain.Model;
 
 namespace Testes.NetCore.Data.Repository
 {
-    public class VksProcess : IVksProcess
+    public class TProcess : ITProcess
     {
         private readonly ILoggerResultRepository _log;
 
-        public VksProcess(ILoggerResultRepository log)
+        public TProcess(ILoggerResultRepository log)
         {
             _log = log;
         }
