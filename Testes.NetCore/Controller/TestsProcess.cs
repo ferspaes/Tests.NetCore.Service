@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System;
+using System.Timers;
 using Testes.NetCore.Domain.Interface;
 
 namespace Testes.NetCore.Controller
@@ -29,6 +30,8 @@ namespace Testes.NetCore.Controller
 
         private void BeginProcess()
         {
+            var dataIni = DateTimeOffset.Parse("17/07/2020").ToUnixTimeSeconds();
+            var dateUnix = DateTimeOffset.Now.ToUnixTimeSeconds();
             _tProcess.LogProcess();
             _testProject.SendEmail();
             _testProject.TratarTelefones();
