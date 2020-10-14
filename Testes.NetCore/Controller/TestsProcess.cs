@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Text;
 using System.Timers;
 using Testes.NetCore.Domain.Interface;
 
@@ -28,8 +30,35 @@ namespace Testes.NetCore.Controller
             BeginProcess();
         }
 
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    using (client.OpenRead("http://google.com/generate_204"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void BeginProcess()
         {
+            while (!CheckForInternetConnection())
+            {
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            var senha = Convert.ToBase64String(Encoding.UTF8.GetBytes("sistemas"));
+
+            var key = Encoding.UTF8.GetString(Convert.FromBase64String(senha));
+
             var dataIni = DateTimeOffset.Parse("17/07/2020").ToUnixTimeSeconds();
             var dateUnix = DateTimeOffset.Now.ToUnixTimeSeconds();
             _tProcess.LogProcess();
